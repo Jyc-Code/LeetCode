@@ -9,9 +9,20 @@
 #include <string.h>
 #include "../print.h"
 
+#define MAX(x,y) (((x) > (y))?(x):(y))
+#define MIN(x,y) (((x) < (y))?(x):(y))
+
 typedef struct node{
 	int key;
 	int value;
+	char keyFlag;
+}NODE;
+
+typedef struct htnode{
+	int key;
+	int value;
+	char keyFlag;
+	NODE * next;
 }HTNODE;
 
 typedef struct hashTable{
@@ -28,20 +39,56 @@ void HT_INIT(HASHTABLE *ht, int size)
 	ht->next = calloc(size, sizeof(HTNODE));
 }
 
-void HT_Insert(HASHTABLE *ht, int iKey, int iValue)
+int HT_Search(HASHTABLE *ht, int Key)
 {
-	HTNODE * tmp = malloc(sizeof(HTNODE));
-	tmp->key = iKey;
-	tmp->value = iValue;
-	ht->next[iKey] = tmp;
-	ht->count++;
+	char kFlag;
+	int absK = abs(Key);
+	kFlag = Key < 0?1 : 0;
+	if(ht->next[absK] != NULL)
+	{	
+		if(ht->next[absK]->next == NULL)
+		{
+			if(ht->next[absK]->keyFlag == kFlag)
+				return ht->next[absK]->value;
+			else 
+				return -2;
+		}
+		if(ht->next[absK]->next != NULL)
+		{
+			if(ht->next[absK]->keyFlag == kFlag)
+				return ht->next[absK]->value;
+			else if(ht->next[absK]->next->keyFlag == kFlag)
+				return ht->next[absK]->next->value;
+			else 
+				return -3;
+		}
+	}
+	else return -1;
 }
 
-HTNODE* HT_Search(HASHTABLE *ht, int Key)
+void HT_Insert(HASHTABLE *ht, int iKey, int iValue)
 {
-	if(ht->next[Key] != NULL)
-		return ht->next[Key];
-	else return NULL;
+	char kFlag;
+	int absK = abs(iKey);
+	kFlag = iKey < 0?1 : 0;
+	if(HT_Search(ht, iKey) == -1)
+	{
+		HTNODE * tmp = malloc(sizeof(HTNODE));
+		tmp->next = NULL;
+		tmp->keyFlag = kFlag;
+		tmp->key = absK;
+		tmp->value = iValue;
+		ht->next[absK] = tmp;
+		ht->count++;
+	}
+	else 
+	{
+		NODE * tmp = malloc(sizeof(NODE));
+		tmp->keyFlag = kFlag;
+		tmp->key = absK;
+		tmp->value = iValue;
+		ht->next[absK]->next = tmp;
+	}
 }
 
 /**
@@ -50,30 +97,42 @@ HTNODE* HT_Search(HASHTABLE *ht, int Key)
 int* twoSum(int* nums, int numsSize, int target, int* returnSize)
 {
 	HASHTABLE *ht;
-	HTNODE *hn;
-	
+	int hn;
+
+	int numsMax,numsMin;
+	numsMax = nums[0];
+	numsMin = nums[0];
+	for(int i = 1;i < numsSize;i++)
+	{
+		numsMax = MAX(numsMax, nums[i]);
+		numsMin = MIN(numsMin, nums[i]);
+	}
+
+	numsMax = MAX(numsMax, target) - MIN(numsMin, target);
+
+	printf("MAX:%d\n", numsMax);
+
 	ht = malloc(sizeof(HASHTABLE));
 	ht->count = 0;
-	ht->size = target;
-	ht->next = calloc(target, sizeof(HTNODE));
+	ht->size = numsMax + 1;
+	ht->next = calloc(numsMax + 1, sizeof(HTNODE));
 	
 	for(int i = 0; i < numsSize; i++)
 	{
-		if(target > nums[i])
-			hn = HT_Search(ht, abs(target - nums[i]));
-		else
-			hn = HT_Search(ht, abs(nums[i] - target));
-
-		if(hn != NULL)
+		/* HT_Insert(ht, nums[i], i); */
+		hn = HT_Search(ht, target - nums[i]);
+		if(hn >= 0)
 		{
 			int *ret = malloc(sizeof(int)*2);
-			ret[0] = hn->value;
+			ret[0] = hn;
 			ret[1] = i;
 			fprintf(stdout, "ret0:%d\nret1:%d\n",ret[0], ret[1]);
+			free(ht->next);
+			free(ht);
 			*returnSize = 2;
 			return ret;
 		}
-		HT_Insert(ht, abs(nums[i]), i);
+		HT_Insert(ht, nums[i], i);
 	}
 	*returnSize = 0;
 	return 0;
@@ -81,8 +140,8 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize)
 
 int main(int argc, char *argv[])
 {
-	int nums[3]={0,2,0};
-	int target = 0;
+	int nums[5]={3,2,95,4,-3};
+	int target = 92;
 	int numsSize;
 	int *returnSize = malloc(sizeof(int));
 	int *ret=malloc(sizeof(int)*2);
