@@ -7,7 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../print.h"
+#include "../include/print.h"
+#include "../include/uthash/uthash.h"
 
 #define MAX(x,y) (((x) > (y))?(x):(y))
 #define MIN(x,y) (((x) < (y))?(x):(y))
@@ -119,7 +120,6 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize)
 	
 	for(int i = 0; i < numsSize; i++)
 	{
-		/* HT_Insert(ht, nums[i], i); */
 		hn = HT_Search(ht, target - nums[i]);
 		if(hn >= 0)
 		{
