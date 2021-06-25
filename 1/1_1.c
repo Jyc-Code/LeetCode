@@ -27,8 +27,8 @@ HTTABLE * head = NULL;
 
 int main(int argc, char *argv[])
 {
-	int nums[5]={3,2,95,4,-3};
-	int target = 92;
+	int nums[2]={3,3};
+	int target = 6;
 	int numsSize;
 	int *returnSize = malloc(sizeof(int));
 	int *ret=malloc(sizeof(int)*2);
