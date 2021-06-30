@@ -1,7 +1,8 @@
 /************************************************************************
 * file name: 27.c
 * author: lalala
-* mail: 
+* mail:
+* 删除数值中成员
 * created time: 2021年06月29日 星期二 13时07分45秒
 *************************************************************************/
 #include <stdio.h>
@@ -57,7 +58,7 @@ int removeElement(int* nums, int numsSize, int val)
     int slow=0;
     while(fast<numsSize)
     {
-        if(nums[fast++]!=val)
+        if(nums[fast++]!=val)//在进行判断后会++
         {
             nums[slow++]=nums[fast-1];
         }

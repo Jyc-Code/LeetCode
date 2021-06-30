@@ -19,7 +19,7 @@ int search(int* nums, int numsSize, int target)
 	int i = 0;
 	minM = 0;
 	maxM = numsSize - 1;
-	while(nums[(minM + maxM)/2] != target && i <= (numsSize/2 + 1))
+	while(nums[(minM + maxM)/2] != target && i <= (numsSize/2 + 1))//!!!! 边界
 	{
 		if(target > nums[(minM + maxM)/2])
 		{

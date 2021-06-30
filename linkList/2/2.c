@@ -2,13 +2,15 @@
 * file name: 2.c
 * author: lalala
 * mail: 
+* 两数相加 链表的形式输入
+* 需要考虑进位
 * created time: 2021年06月28日 星期一 13时40分16秒
 *************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/print.h"
-#include "../include/public.h"
+#include "../../include/print.h"
+#include "../../include/public.h"
 
 struct ListNode {
 	int val;

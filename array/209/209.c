@@ -2,6 +2,7 @@
 * file name: 209.c
 * author: lalala
 * mail: 
+* 滑动窗口
 * created time: 2021年06月29日 星期二 17时04分11秒
 *************************************************************************/
 #include <stdio.h>
@@ -17,7 +18,7 @@ int minSubArrayLen(int target, int* nums, int numsSize)
 	for(int i = 0,j = 0;i < numsSize && j < numsSize;)
 	{
 		if(i == j)sum = nums[j];
-		else if(minF == 0)sum += nums[j];
+		else if(minF == 0)sum += nums[j];// 慢指针移动时需要避免再次求和
 
 		printf("i:%d j:%d sum:%d\n", i, j,sum);
 		if(sum >= target)
@@ -29,6 +30,7 @@ int minSubArrayLen(int target, int* nums, int numsSize)
 			}
 			
 			printf("A%d %d\n",i,j);
+			/* 需要区分首次的情况 */
 			if(min != 0)
 				min = MIN(j - i + 1,min);
 			else

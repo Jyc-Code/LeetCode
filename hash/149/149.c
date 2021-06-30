@@ -2,14 +2,15 @@
 * file name: 149.c
 * author: lalala
 * mail: 
+* 同一直线上的点
 * created time: 2021年06月24日 星期四 13时25分35秒
 *************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "../include/uthash/uthash.h"
-#include "../include/print.h"
+#include "../../include/uthash/uthash.h"
+#include "../../include/print.h"
 
 #define MAX(x,y) (((x) > (y))?(x):(y))
 #define MIN(x,y) (((x) < (y))?(x):(y))
@@ -89,7 +90,7 @@ int maxPoints(int** points, int pointsSize, int* pointsColSize)
 				}
 			}
 			K = (float)y/x;
-			UT_HT_Search(K*10000, i);
+			UT_HT_Search(K*10000, i);//K的精度
 			
 			UT_HT_Insert(K*10000, wNum, i);
 			ht = UT_HT_Search(K*10000, i);

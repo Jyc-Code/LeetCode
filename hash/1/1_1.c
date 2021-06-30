@@ -2,13 +2,14 @@
 * file name: 1.c
 * author: lalala
 * mail: 
+* 两数和
 * created time: 2021年05月11日 星期二 15时23分51秒
 *************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/print.h"
-#include "../include/uthash/uthash.h"
+#include "../../include/print.h"
+#include "../../include/uthash/uthash.h"
 
 #define MAX(x,y) (((x) > (y))?(x):(y))
 #define MIN(x,y) (((x) < (y))?(x):(y))
